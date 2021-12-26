@@ -679,7 +679,7 @@ static int cmspi_shift_out(struct flash_bank *bank, uint32_t word)
 	uint32_t port_clk, pdir_clk, port_iox, pdir_iox, in_iox, bit_mask;
 	int k, m, retval;
 
-	LOG_DEBUG("0x%02" PRIx8, word);
+	LOG_DEBUG("0x%02" PRIx8, (uint8_t) word);
 
 	retval = target_read_u32(target, cmspi_info->clk.addr, &port_clk);
 	if (retval != ERROR_OK)
@@ -1103,7 +1103,7 @@ static int cmspi_shift_in(struct flash_bank *bank, uint32_t *word)
 			return ERROR_FAIL;
 	}
 
-	LOG_DEBUG("0x%02" PRIx8, *word);
+	LOG_DEBUG("0x%02" PRIx8, (uint8_t) *word);
 
 	return ERROR_OK;
 }
@@ -1233,7 +1233,7 @@ err:
 
 	/* check write enabled */
 	if ((status & SPIFLASH_WE_BIT) == 0) {
-		LOG_ERROR("Cannot enable write to flash. Status=0x%02" PRIx8, status);
+		LOG_ERROR("Cannot enable write to flash. Status=0x%02" PRIx8, (uint8_t) status);
 		return ERROR_FAIL;
 	}
 
@@ -1325,7 +1325,7 @@ err:
 	/* check for command in progress for flash */
 	if (((data & SPIFLASH_BSY_BIT) == 0) && (data & SPIFLASH_WE_BIT) != 0) {
 		LOG_DEBUG("Sector erase not accepted by flash. Status=0x%02" PRIx8,
-			data & 0xFF);
+			(uint8_t) (data & 0xFF));
 		/* return ERROR_FAIL; */
 	}
 
@@ -1555,7 +1555,7 @@ int cmspi_i2c_scan(struct flash_bank *bank)
 	for (addr = I2C_FIRST; addr <= I2C_LAST; addr++) {
 		if (!(scan_info[(addr - I2C_FIRST) >> 5] &
 			(1UL << (31 - ((addr - I2C_FIRST) & ((1UL << 5) - 1)))))) {
-			snprintf(temp, sizeof(temp), "%02" PRIx8 " ", addr);
+			snprintf(temp, sizeof(temp), "%02" PRIx8 " ", (uint8_t) addr);
 			strncat(output, temp, sizeof(output) - strlen(output) - 1);
 			if (++count >= max) {
 				LOG_INFO("i2c_scan: %s", output);
@@ -3162,7 +3162,7 @@ COMMAND_HANDLER(cmspi_handle_cmd)
 			/* send command byte */
 			snprintf(output, sizeof(output), "%s: %02" PRIx8 " ",
 				(cmspi_info->mode == MODE_SPI) ? "spi" :
-					(cmspi_info->mode == MODE_DPI) ? "dpi" : "qpi", cmd_byte & 0xFF);
+					(cmspi_info->mode == MODE_DPI) ? "dpi" : "qpi", (uint8_t) (cmd_byte & 0xFF));
 			retval = cmspi_shift_out(bank, cmd_byte);
 			if (retval != ERROR_OK)
 				goto err;
@@ -3170,7 +3170,7 @@ COMMAND_HANDLER(cmspi_handle_cmd)
 			/* send additional bytes */
 			for ( ; index < CMD_ARGC; index++) {
 				COMMAND_PARSE_NUMBER(u8, CMD_ARGV[index], cmd_byte);
-				snprintf(temp, sizeof(temp), "%02" PRIx8 " ", cmd_byte & 0xFF);
+				snprintf(temp, sizeof(temp), "%02" PRIx8 " ", (uint8_t) (cmd_byte & 0xFF));
 				retval = cmspi_shift_out(bank, cmd_byte);
 				if (retval != ERROR_OK)
 					goto err;
@@ -3189,7 +3189,7 @@ COMMAND_HANDLER(cmspi_handle_cmd)
 				retval = cmspi_shift_in(bank, &data);
 				if (retval != ERROR_OK)
 					goto err;
-				snprintf(temp, sizeof(temp), "%02" PRIx8 " ", data & 0xFF);
+				snprintf(temp, sizeof(temp), "%02" PRIx8 " ", (uint8_t) (data & 0xFF));
 				strncat(output, temp, sizeof(output) - strlen(output) - 1);
 			}
 			command_print(CMD, "%s", output);
@@ -3255,7 +3255,7 @@ COMMAND_HANDLER(cmspi_handle_cmd)
 						retval = cmspi_shift_in(bank, &data);
 						if (retval != ERROR_OK)
 							goto err;
-						snprintf(temp, sizeof(temp), " %02" PRIx8, data & 0xFF);
+						snprintf(temp, sizeof(temp), " %02" PRIx8, (uint8_t) (data & 0xFF));
 						strncat(output, temp, sizeof(output) - strlen(output) - 1);
 					}
 				}

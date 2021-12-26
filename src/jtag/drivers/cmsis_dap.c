@@ -295,7 +295,7 @@ static void cmsis_dap_print_stats(void)
 	int64_t period_ms = timeval_ms() - tv;
 	if(period_ms >= stats_period) {
 		tv = timeval_ms();
-		LOG_INFO("FIFO level: %d, TX: %zu KBps, RX: %zu KBps",
+		LOG_INFO("FIFO level: %d, TX: %" PRIu64 " KBps, RX: %" PRIu64 " KBps",
 				 pending_fifo_block_count,
 				 (1000 * tx_bytes) / (period_ms * 1024),
 				 (1000 * rx_bytes) / (period_ms * 1024));
