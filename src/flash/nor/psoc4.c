@@ -253,6 +253,7 @@ const struct psoc4_chip_family psoc4_families[] = {
 	{ 0xA0, {0, 0},           "PSoC 4200L",                           .flags = PSOC4_FLAG_IMO_NOT_REQUIRED, .spcif_ver = spcif_v2 },
 	{ 0xA1, {0, 0},           "PSoC 4100M/4200M",                     .flags = PSOC4_FLAG_IMO_NOT_REQUIRED, .spcif_ver = spcif_v2 },
 	{ 0xA3, {0, 0},           "PSoC 4xx8 BLE",                        .flags = PSOC4_FLAG_IMO_NOT_REQUIRED, .spcif_ver = spcif_v2 },
+	{ 0xA4, {0, 0},           "CCG2",                                 .flags = 0, .spcif_ver = spcif_v2 },
 	{ 0xA7, {0, 0},           "PSoC 4000DS/4200DS",                   .flags = 0, .spcif_ver = spcif_v2 },
 	{ 0xA8, {0, 0},           "CCG4",                                 .flags = 0, .spcif_ver = spcif_v2 },
 	{ 0xA9, {0, 0},           "PSoC 4000S/4700S",                     .flags = 0, .spcif_ver = spcif_v3 },
